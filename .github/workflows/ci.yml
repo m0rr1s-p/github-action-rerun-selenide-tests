@@ -8,4 +8,6 @@ jobs:
       - uses: actions/checkout@v2
       - uses: ./
         id: rerun
-      - run: echo ${{ steps.rerun.outputs.sum }}
+        with:
+          test: 'test5'
+      - run: echo ${{ steps.rerun.outputs.test }}

@@ -7,10 +7,15 @@ inputs:
     description: 'Github token'
     required: true
     default: ${{ github.token }}
+  test:
+    description: 'Test'
+    required: true
 
 outputs:
   sum:
     description: 'The sum of the inputs'
+  test:
+    description: 'The test'
 
 runs:
   using: 'docker'
