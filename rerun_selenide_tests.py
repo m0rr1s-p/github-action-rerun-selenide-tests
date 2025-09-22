@@ -19,3 +19,4 @@ def get_check_suite_url():
         return r.json()['check_suite_url']
     else:
         sys.stdout.write("::notice title=no_attempt_found::No attempt found")
+        sys.stdout.write(os.linesep)
