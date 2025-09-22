@@ -1,0 +1,13 @@
+name: 'Rerun Selenide Tests'
+author: 'morris'
+description: 'Rerun Selenide Tests'
+
+inputs:
+  github_token:
+    description: 'Github token'
+    required: true
+    default: ${{ github.token }}
+
+outputs:
+  sum:
+    description: 'The sum of the inputs'
