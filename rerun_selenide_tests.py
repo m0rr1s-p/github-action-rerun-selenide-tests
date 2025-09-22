@@ -16,6 +16,7 @@ def get_check_suite_url():
                              'Accept': 'application/vnd.github+json',
                              'X-GitHub-Api-Version': '2022-11-28'
                          })
+        print(r.json())
         set_github_action_output(r.json()['check_suite_url'], os.getenv('INPUT_TEST'))
         return r.json()['check_suite_url']
     else:
