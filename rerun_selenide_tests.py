@@ -1,5 +1,6 @@
 import requests
 import os
+import sys
 
 def set_github_action_output(name, value):
     with open(os.path.abspath(os.environ['GITHUB_OUTPUT']), 'a') as f:
@@ -17,4 +18,4 @@ def get_check_suite_url():
                          })
         return r.json()['check_suite_url']
     else:
-        print("::notice title=Not a rerun::Not a rerun")
+        sys.stdout.write("::notice title=no_attempt_found::No attempt found")
