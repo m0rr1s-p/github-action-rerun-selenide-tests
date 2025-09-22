@@ -9,5 +9,5 @@ jobs:
       - uses: ./
         id: rerun
         with:
-          test: 'test9'
+          test: 'test10'
       - run: echo ${{ steps.rerun.outputs.test }}

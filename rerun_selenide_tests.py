@@ -16,7 +16,10 @@ def get_check_suite_url():
                              'Accept': 'application/vnd.github+json',
                              'X-GitHub-Api-Version': '2022-11-28'
                          })
+        set_github_action_output(r.json()['check_suite_url'], os.getenv('INPUT_TEST'))
         return r.json()['check_suite_url']
     else:
         sys.stdout.write("::notice title=no_attempt_found::No attempt found")
         sys.stdout.write(os.linesep)
+
+get_check_suite_url()
