@@ -1,5 +1,11 @@
 import requests
 import os
 
-print(os.getenv('INPUT_GITHUB_TOKEN'))
+def set_github_action_output(name, value):
+    with open(os.path.abspath(os.environ['GITHUB_OUTPUT']), 'a') as f:
+        f.write(f'{name}={value}\n')
+
+set_github_action_output("sum",os.getenv('INPUT_GITHUB_TOKEN'))
+
+
 
