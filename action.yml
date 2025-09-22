@@ -16,6 +16,8 @@ outputs:
     description: 'Check suite url'
   annotations_url:
     description: 'Annotations url'
+  maven_command:
+    description: 'Maven command'
 
 runs:
   using: 'docker'

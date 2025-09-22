@@ -18,3 +18,4 @@ jobs:
       - run: |
           echo ${{ steps.rerun.outputs.check_suite_url }}
           echo ${{ steps.rerun.outputs.annotations_url }}
+          echo ${{ steps.rerun.outputs.maven_command }}
