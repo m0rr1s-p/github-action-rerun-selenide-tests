@@ -4,6 +4,10 @@ on: push
 jobs:
   build:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      checks: read
+      actions: read
     steps:
       - uses: actions/checkout@v2
       - uses: ./
