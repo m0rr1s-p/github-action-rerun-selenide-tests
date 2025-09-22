@@ -11,3 +11,7 @@ inputs:
 outputs:
   sum:
     description: 'The sum of the inputs'
+
+runs:
+  using: 'docker'
+  image: 'Dockerfile'
