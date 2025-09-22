@@ -10,5 +10,5 @@ jobs:
         id: rerun
         with:
           test: 'test'
-          github-token: ${{ secrets.GITHUB_TOKEN }}
+          github_token: ${{ secrets.GITHUB_TOKEN }}
       - run: echo ${{ steps.rerun.outputs.test }}
