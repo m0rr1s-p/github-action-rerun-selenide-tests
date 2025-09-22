@@ -32,8 +32,8 @@ def get_check_run_annotation_url(check_suite_url):
                      })
     for check_run in r.json()['check_runs']:
         if check_run['name'] == os.getenv('INPUT_CHECK_NAME'):
-            set_github_action_output('annotations_url', check_run['annotations_url'])
-            return check_run['annotations_url']
+            set_github_action_output('annotations_url', check_run['output']['annotations_url'])
+            return check_run['output']['annotations_url']
 
 def get_annotations(annotations_url):
     r = requests.get(annotations_url,
