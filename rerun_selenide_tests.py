@@ -11,6 +11,8 @@ def get_check_suite_url():
         attempt = int(os.getenv('GITHUB_RUN_ATTEMPT')) - 1
     else:
         attempt = 1
+        sys.stdout.write('::notice title=No previous attempt::This is the first attempt, no previous attempt to rerun.')
+        sys.stdout.write(os.linesep)
 
     url = f'https://api.github.com/repos/{os.getenv('GITHUB_REPOSITORY')}/actions/runs/{os.getenv('GITHUB_RUN_ID')}/attempts/{attempt}'
     r = requests.get(url,
