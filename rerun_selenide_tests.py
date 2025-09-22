@@ -15,7 +15,7 @@ def get_check_suite_url():
         print(url)
         r = requests.get(url,
                          headers={
-                             'Authorization': f'Bearer {os.getenv("GITHUB_TOKEN")}',
+                             'Authorization': f'Bearer {os.getenv("INPUT_GITHUB_TOKEN")}',
                              'Accept': 'application/vnd.github+json',
                              'X-GitHub-Api-Version': '2022-11-28'
                          })

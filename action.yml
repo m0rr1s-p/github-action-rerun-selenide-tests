@@ -3,7 +3,7 @@ author: 'morris'
 description: 'Rerun Selenide Tests'
 
 inputs:
-  github_token:
+  github-token:
     description: 'Github token'
     required: true
     default: ${{ github.token }}
