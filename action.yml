@@ -7,15 +7,15 @@ inputs:
     description: 'Github token'
     required: true
     default: ${{ github.token }}
-  test:
-    description: 'Test'
+  check_name:
+    description: 'Check name'
     required: true
 
 outputs:
-  sum:
-    description: 'The sum of the inputs'
-  test:
-    description: 'The test'
+  check_suite_url:
+    description: 'Check suite url'
+  annotations_url:
+    description: 'Annotations url'
 
 runs:
   using: 'docker'

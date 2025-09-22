@@ -13,6 +13,8 @@ jobs:
       - uses: ./
         id: rerun
         with:
-          test: 'test'
           github_token: ${{ secrets.GITHUB_TOKEN }}
-      - run: echo ${{ steps.rerun.outputs.test }}
+          check_name: 'build'
+      - run: |
+          echo ${{ steps.rerun.outputs.check_suite_url }}
+          echo ${{ steps.rerun.outputs.annotations_url }}
