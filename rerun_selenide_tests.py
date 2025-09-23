@@ -60,5 +60,5 @@ if check_suite_url:
     annotation_url = get_check_run_annotation_url(check_suite_url)
 if annotation_url:
     annotations = get_annotations(annotation_url)
-if len(annotations) > 0:
+if annotations:
     create_maven_command(annotations)
