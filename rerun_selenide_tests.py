@@ -17,7 +17,8 @@ def set_github_action_output(name, value):
 
 def get_check_suite_url():
     if int(os.getenv('GITHUB_RUN_ATTEMPT')) > 1:
-        attempt = int(os.getenv('GITHUB_RUN_ATTEMPT')) - 1
+        # TODO: revert to - 1
+        attempt = int(os.getenv('GITHUB_RUN_ATTEMPT')) - 2
         logging.info(f'Attempt: {attempt}')
     else:
         attempt = 1
