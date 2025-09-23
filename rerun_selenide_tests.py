@@ -9,8 +9,6 @@ headers = {
     'X-GitHub-Api-Version': '2022-11-28'
 }
 
-annotations = []
-
 def set_github_action_output(name, value):
     with open(os.path.abspath(os.environ['GITHUB_OUTPUT']), 'a') as f:
         f.write(f'{name}={value}\n')
@@ -31,6 +29,34 @@ def get_check_suite_url():
     r = requests.get(url, headers=headers)
     set_github_action_output('check_suite_url', r.json()['check_suite_url'])
     return r.json()['check_suite_url']
+
+def get_attempt_job_annotations_url():
+    if int(os.getenv('GITHUB_RUN_ATTEMPT')) > 1:
+        # TODO: revert to - 1
+        attempt = int(os.getenv('GITHUB_RUN_ATTEMPT')) - 2
+        logging.info(f'Attempt: {attempt}')
+    else:
+        attempt = 1
+        logging.info(f'Attempt: {attempt}')
+        sys.stdout.write('::notice title=No previous attempt::This is the first attempt, no previous attempt to rerun.')
+        sys.stdout.write(os.linesep)
+
+    url = f'https://api.github.com/repos/{os.getenv('GITHUB_REPOSITORY')}/actions/runs/{os.getenv('GITHUB_RUN_ID')}/attempts/{attempt}/jobs'
+    logging.info(f'Requesting URL: {url}')
+    r = requests.get(url, headers=headers)
+
+    if any(d.get("name") == os.getenv('INPUT_CHECK_NAME') for d in r.json()['jobs']):
+        logging.info(f'Job found: {os.getenv("INPUT_CHECK_NAME")}')
+        for job in r.json()['jobs']:
+            if job['name'] == os.getenv('INPUT_CHECK_NAME'):
+                attempt_job_annotation_url = f'{job["check_run_url"]}/annotations'
+                set_github_action_output('attempt_job_annotation_url', attempt_job_annotation_url)
+                return attempt_job_annotation_url
+    else:
+        logging.info(f'Job not found: {os.getenv("INPUT_CHECK_NAME")}')
+        sys.stdout.write('::notice title=No job found::No job found.')
+        sys.stdout.write(os.linesep)
+        sys.exit(0)
 
 
 def get_check_run_annotation_url(check_suite_url):
@@ -67,10 +93,10 @@ def create_maven_command(annotations):
     return maven_command
 
 
-check_suite_url = get_check_suite_url()
-if check_suite_url:
-    annotation_url = get_check_run_annotation_url(check_suite_url)
-if annotation_url:
-    annotations = get_annotations(annotation_url)
-if len(annotations) > 0:
-    create_maven_command(annotations)
+
+job_annotations = []
+job_annotation_url = get_attempt_job_annotations_url()
+if len(job_annotation_url) > 0:
+    job_annotations = get_annotations(job_annotation_url)
+if len(job_annotations) > 0:
+    create_maven_command(job_annotations)
