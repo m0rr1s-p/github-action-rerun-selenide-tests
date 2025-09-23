@@ -15,7 +15,7 @@ def set_github_action_output(name, value):
 
 def get_attempt_job_annotations_url():
     if int(os.getenv('GITHUB_RUN_ATTEMPT')) > 1:
-        attempt = int(os.getenv('GITHUB_RUN_ATTEMPT')) - 1
+        attempt = int(os.getenv('GITHUB_RUN_ATTEMPT')) - 2
         logging.info(f'Attempt: {attempt}')
     else:
         attempt = 1
@@ -27,6 +27,9 @@ def get_attempt_job_annotations_url():
     logging.info(f'Requesting URL: {url}')
     r = requests.get(url, headers=headers)
 
+    print(os.getenv('INPUT_CHECK_NAME'))
+    print(r.json())
+    print(r.json()['jobs'])
     if any(d.get("name") == os.getenv('INPUT_CHECK_NAME') for d in r.json()['jobs']):
         logging.info(f'Job found: {os.getenv("INPUT_CHECK_NAME")}')
         for job in r.json()['jobs']:
