@@ -13,27 +13,9 @@ def set_github_action_output(name, value):
     with open(os.path.abspath(os.environ['GITHUB_OUTPUT']), 'a') as f:
         f.write(f'{name}={value}\n')
 
-def get_check_suite_url():
-    if int(os.getenv('GITHUB_RUN_ATTEMPT')) > 1:
-        # TODO: revert to - 1
-        attempt = int(os.getenv('GITHUB_RUN_ATTEMPT')) - 2
-        logging.info(f'Attempt: {attempt}')
-    else:
-        attempt = 1
-        logging.info(f'Attempt: {attempt}')
-        sys.stdout.write('::notice title=No previous attempt::This is the first attempt, no previous attempt to rerun.')
-        sys.stdout.write(os.linesep)
-
-    url = f'https://api.github.com/repos/{os.getenv('GITHUB_REPOSITORY')}/actions/runs/{os.getenv('GITHUB_RUN_ID')}/attempts/{attempt}'
-    logging.info(f'Requesting URL: {url}')
-    r = requests.get(url, headers=headers)
-    set_github_action_output('check_suite_url', r.json()['check_suite_url'])
-    return r.json()['check_suite_url']
-
 def get_attempt_job_annotations_url():
     if int(os.getenv('GITHUB_RUN_ATTEMPT')) > 1:
-        # TODO: revert to - 1
-        attempt = int(os.getenv('GITHUB_RUN_ATTEMPT')) - 2
+        attempt = int(os.getenv('GITHUB_RUN_ATTEMPT')) - 1
         logging.info(f'Attempt: {attempt}')
     else:
         attempt = 1
@@ -57,22 +39,6 @@ def get_attempt_job_annotations_url():
         sys.stdout.write('::notice title=No job found::No job found.')
         sys.stdout.write(os.linesep)
         sys.exit(0)
-
-
-def get_check_run_annotation_url(check_suite_url):
-    logging.info(f'Requesting URL: {check_suite_url}/check-runs')
-    r = requests.get(f'{check_suite_url}/check-runs', headers=headers)
-    if any(d.get("name") == os.getenv('INPUT_CHECK_NAME') for d in r.json()['check_runs']):
-        logging.info(f'Check run found: {os.getenv("INPUT_CHECK_NAME")}')
-        for check_run in r.json()['check_runs']:
-            if check_run['name'] == os.getenv('INPUT_CHECK_NAME'):
-                set_github_action_output('annotations_url', check_run['output']['annotations_url'])
-                return check_run['output']['annotations_url']
-    else:
-        logging.info(f'Check run not found: {os.getenv("INPUT_CHECK_NAME")}')
-        sys.stdout.write('::notice title=No check run found::No check run found.')
-        sys.stdout.write(os.linesep)
-        return None
 
 def get_annotations(annotations_url):
     logging.info(f'Requesting URL: {annotations_url}')
