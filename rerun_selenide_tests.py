@@ -8,6 +8,8 @@ headers = {
     'X-GitHub-Api-Version': '2022-11-28'
 }
 
+annotations = []
+
 def set_github_action_output(name, value):
     with open(os.path.abspath(os.environ['GITHUB_OUTPUT']), 'a') as f:
         f.write(f'{name}={value}\n')
@@ -60,5 +62,5 @@ if check_suite_url:
     annotation_url = get_check_run_annotation_url(check_suite_url)
 if annotation_url:
     annotations = get_annotations(annotation_url)
-if annotations:
+if len(annotations) > 0:
     create_maven_command(annotations)
