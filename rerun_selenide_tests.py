@@ -84,7 +84,7 @@ check_run_id = ''
 if len(job_annotations) > 0:
     check_run_id = get_check_run_id(job_annotations)
 check_annotations = []
-if len(check_run_id > 0) :
+if len(check_run_id) > 0:
     check_annotations = get_annotations(f'https://api.github.com/repos/{os.getenv("GITHUB_REPOSITORY")}/check-runs/{check_run_id}/annotations')
 if len(check_annotations) > 0:
     create_maven_command(job_annotations)
