@@ -19,7 +19,7 @@ def set_github_action_output(name, value):
 
 def get_attempt_job_annotations_url():
     if int(os.getenv('GITHUB_RUN_ATTEMPT')) > 1:
-        attempt = int(os.getenv('GITHUB_RUN_ATTEMPT')) - 2
+        attempt = int(os.getenv('GITHUB_RUN_ATTEMPT')) - 3
         logger.info(f'Attempt: {attempt}')
     else:
         attempt = 1
@@ -87,6 +87,6 @@ check_annotations = []
 if len(check_run_id) > 0:
     check_annotations = get_annotations(f'https://api.github.com/repos/{os.getenv("GITHUB_REPOSITORY")}/check-runs/{check_run_id}/annotations')
 if len(check_annotations) > 0:
-    create_maven_command(job_annotations)
+    create_maven_command(check_annotations)
 
 
