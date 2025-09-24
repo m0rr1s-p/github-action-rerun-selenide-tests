@@ -19,7 +19,7 @@ def set_github_action_output(name, value):
 
 def get_attempt_job_annotations_url():
     if int(os.getenv('GITHUB_RUN_ATTEMPT')) > 1:
-        attempt = int(os.getenv('GITHUB_RUN_ATTEMPT')) - 3
+        attempt = int(os.getenv('GITHUB_RUN_ATTEMPT')) - 1
         logger.info(f'Attempt: {attempt}')
     else:
         attempt = 1
